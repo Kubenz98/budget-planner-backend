@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_incomes",
+  "info": {
+    "singularName": "user-income",
+    "pluralName": "user-incomes",
+    "displayName": "user_income"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "date": {
+      "type": "date"
+    },
+    "income_amount": {
+      "type": "decimal"
+    }
+  }
+}

@@ -676,6 +676,113 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
+export interface ApiAllocatedExpenseAllocatedExpense
+  extends Schema.CollectionType {
+  collectionName: 'allocated_expenses';
+  info: {
+    singularName: 'allocated-expense';
+    pluralName: 'allocated-expenses';
+    displayName: 'allocated_expense';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    user: Attribute.Relation<
+      'api::allocated-expense.allocated-expense',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    category: Attribute.Relation<
+      'api::allocated-expense.allocated-expense',
+      'oneToOne',
+      'api::category.category'
+    >;
+    date: Attribute.Date;
+    amount: Attribute.Decimal;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::allocated-expense.allocated-expense',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::allocated-expense.allocated-expense',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCategoryCategory extends Schema.CollectionType {
+  collectionName: 'categories';
+  info: {
+    singularName: 'category';
+    pluralName: 'categories';
+    displayName: 'category';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Unique;
+    color: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiUserIncomeUserIncome extends Schema.CollectionType {
+  collectionName: 'user_incomes';
+  info: {
+    singularName: 'user-income';
+    pluralName: 'user-incomes';
+    displayName: 'user_income';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    user: Attribute.Relation<
+      'api::user-income.user-income',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    date: Attribute.Date;
+    income_amount: Attribute.Decimal;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::user-income.user-income',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::user-income.user-income',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Shared {
     export interface ContentTypes {
@@ -692,6 +799,9 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
+      'api::allocated-expense.allocated-expense': ApiAllocatedExpenseAllocatedExpense;
+      'api::category.category': ApiCategoryCategory;
+      'api::user-income.user-income': ApiUserIncomeUserIncome;
     }
   }
 }

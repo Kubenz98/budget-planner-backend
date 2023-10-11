@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "allocated_expenses",
+  "info": {
+    "singularName": "allocated-expense",
+    "pluralName": "allocated-expenses",
+    "displayName": "allocated_expense"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "category": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::category.category"
+    },
+    "date": {
+      "type": "date"
+    },
+    "amount": {
+      "type": "decimal"
+    }
+  }
+}
