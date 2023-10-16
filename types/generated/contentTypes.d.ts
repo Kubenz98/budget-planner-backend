@@ -731,6 +731,11 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
   attributes: {
     name: Attribute.String & Attribute.Unique;
     color: Attribute.String;
+    user: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
