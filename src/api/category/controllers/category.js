@@ -12,19 +12,23 @@ module.exports = createCoreController(
     async create(ctx) {
       const user = ctx.state.user;
       const { category, color } = ctx.request.body;
-      console.log(user);
-      const entity = await strapi.entityService.create(
-        "api::category.category",
-        {
-          data: {
-            user,
-            name: category,
-            color,
-          },
-        }
-      );
-      const sanitizedEntity = await this.sanitizeOutput(entity, ctx);
-      return this.transformResponse(sanitizedEntity);
+      try {
+        const entity = await strapi.entityService.create(
+          "api::category.category",
+          {
+            data: {
+              user,
+              name: category,
+              color,
+            },
+          }
+        );
+        const sanitizedEntity = await this.sanitizeOutput(entity, ctx);
+        return this.transformResponse(sanitizedEntity);
+      } catch (err) {
+        console.log(err.name);
+        return this.transformResponse({ error: err.name });
+      }
     },
   })
 );
