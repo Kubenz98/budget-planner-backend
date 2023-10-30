@@ -30,5 +30,28 @@ module.exports = createCoreController(
         return this.transformResponse({ error: err.name });
       }
     },
+    async find(ctx) {
+      try {
+        const user = ctx.state.user.id;
+        const categoriesEntity = await strapi.services[
+          "api::category.category"
+        ].find({
+          filters: { user: user },
+        });
+        ctx.query.filters = {
+          ...(ctx.query.filters || {}),
+          user: user,
+        };
+        const sanitizedEntity = await this.sanitizeOutput(
+          categoriesEntity,
+          ctx
+        );
+        return this.transformResponse(sanitizedEntity);
+      } catch (err) {
+        console.error(err);
+        ctx.response.status = 500;
+        ctx.send({ error: "Internal server error" });
+      }
+    },
   })
 );
