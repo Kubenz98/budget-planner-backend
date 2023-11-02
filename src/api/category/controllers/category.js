@@ -1,5 +1,7 @@
 "use strict";
 
+const ValidationError = require("../../../classes/ValidationError");
+
 /**
  * category controller
  */
@@ -13,18 +15,34 @@ module.exports = createCoreController(
       const user = ctx.state.user;
       const { category, color } = ctx.request.body;
       try {
-        const entity = await strapi.entityService.create(
-          "api::category.category",
-          {
-            data: {
-              user,
-              name: category,
-              color,
-            },
+        const categoriesEntity = await strapi.services[
+          "api::category.category"
+        ].find({
+          filters: { user: user },
+        });
+        console.log(categoriesEntity);
+        let categoryExists = false;
+        categoriesEntity.results.forEach((item) => {
+          if (item.name === category) {
+            categoryExists = true;
           }
-        );
-        const sanitizedEntity = await this.sanitizeOutput(entity, ctx);
-        return this.transformResponse(sanitizedEntity);
+        });
+        if (!categoryExists) {
+          const entity = await strapi.entityService.create(
+            "api::category.category",
+            {
+              data: {
+                user,
+                name: category,
+                color,
+              },
+            }
+          );
+          const sanitizedEntity = await this.sanitizeOutput(entity, ctx);
+          return this.transformResponse(sanitizedEntity);
+        } else {
+          throw new ValidationError("Category exists");
+        }
       } catch (err) {
         console.log(err.name);
         return this.transformResponse({ error: err.name });

@@ -729,7 +729,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    name: Attribute.String & Attribute.Unique;
+    name: Attribute.String;
     color: Attribute.String;
     user: Attribute.Relation<
       'api::category.category',
