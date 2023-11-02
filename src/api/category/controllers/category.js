@@ -23,7 +23,7 @@ module.exports = createCoreController(
         console.log(categoriesEntity);
         let categoryExists = false;
         categoriesEntity.results.forEach((item) => {
-          if (item.name === category) {
+          if (item.name.toLowerCase().trim() === category.toLowerCase()) {
             categoryExists = true;
           }
         });
@@ -33,7 +33,7 @@ module.exports = createCoreController(
             {
               data: {
                 user,
-                name: category,
+                name: category.trim(),
                 color,
               },
             }
