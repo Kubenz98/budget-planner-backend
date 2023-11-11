@@ -38,6 +38,7 @@ module.exports = createCoreController(
         } else {
           mergedEntities = categoriesEntity.results;
         }
+        mergedEntities.sort((a, b) => parseFloat(a.id) - parseFloat(b.id));
         const sanitizedEntity = await this.sanitizeOutput(mergedEntities, ctx);
         return this.transformResponse(sanitizedEntity);
       } catch (err) {
